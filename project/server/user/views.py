@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, login_required
 
 from project.server import bcrypt, db
 from project.server.models import User
-from project.server.user.forms import LoginForm, RegisterForm
+from project.server.user.forms import LoginForm, RegisterForm, QuestionForm
 
 
 user_blueprint = Blueprint("user", __name__)
@@ -38,7 +38,7 @@ def login():
         ):
             login_user(user)
             flash("You are logged in. Welcome!", "success")
-            return redirect(url_for("user.members"))
+            return redirect(url_for("user.questions"))
         else:
             flash("Invalid email and/or password.", "danger")
             return render_template("user/login.html", form=form)
@@ -53,7 +53,10 @@ def logout():
     return redirect(url_for("main.home"))
 
 
-@user_blueprint.route("/members")
+@user_blueprint.route("/questions", methods=["GET", "POST"])
 @login_required
-def members():
-    return render_template("user/members.html")
+def questions():
+    form = QuestionForm(request.form)
+    if form.validate_on_submit():
+        pass
+    return render_template("user/questions.html")

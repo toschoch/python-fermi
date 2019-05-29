@@ -2,7 +2,7 @@
 
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, FloatField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
@@ -29,4 +29,22 @@ class RegisterForm(FlaskForm):
             DataRequired(),
             EqualTo("password", message="Passwords must match."),
         ],
+    )
+
+
+class QuestionForm(FlaskForm):
+    text = StringField(
+        "Question",
+        validators=[
+            DataRequired()
+        ]
+    )
+    answer = FloatField(
+        "Answer",
+        validators=[
+            DataRequired()
+        ]
+    )
+    uncertainty = FloatField(
+        "Uncertainty"
     )

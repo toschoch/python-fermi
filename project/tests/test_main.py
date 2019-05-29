@@ -3,7 +3,7 @@
 
 import unittest
 
-from base import BaseTestCase
+from project.tests.base import BaseTestCase
 
 
 class TestMainBlueprint(BaseTestCase):

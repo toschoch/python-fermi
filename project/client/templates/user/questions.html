@@ -1,0 +1,22 @@
+{% extends "_base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+
+  <h1>Add a Fermi Question</h1>
+
+  <form class="form" role="form" method="post" action="">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+    {{ wtf.form_errors(form, hiddens="only") }}
+
+    <div class="col-lg-4 col-sm-4">
+      {{ wtf.form_field(form.text) }}
+      {{ wtf.form_field(form.answer) }}
+      {{ wtf.form_field(form.uncertainty) }}
+
+      <button class="btn btn-success" type="submit">Add</button>
+    </div>
+  </form>
+
+
+{% endblock %}
