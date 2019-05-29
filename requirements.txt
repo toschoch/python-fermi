@@ -1,0 +1,12 @@
+coverage
+flake8
+Flask
+Flask-Bcrypt
+Flask-Bootstrap
+Flask-DebugToolbar
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-Testing
+Flask-WTF
+psycopg2
