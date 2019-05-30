@@ -2,10 +2,10 @@
 
 
 from flask import render_template, Blueprint, url_for, redirect, flash, request
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 from project.server import bcrypt, db
-from project.server.models import User
+from project.server.models import User, Question
 from project.server.user.forms import LoginForm, RegisterForm, QuestionForm
 
 
@@ -23,7 +23,7 @@ def register():
         login_user(user)
 
         flash("Thank you for registering.", "success")
-        return redirect(url_for("user.members"))
+        return redirect(url_for("user.questions"))
 
     return render_template("user/register.html", form=form)
 
@@ -58,5 +58,15 @@ def logout():
 def questions():
     form = QuestionForm(request.form)
     if form.validate_on_submit():
-        pass
-    return render_template("user/questions.html")
+
+        question = Question(form.text.data, form.answer.data,
+                            uncertainty=form.uncertainty.data,
+                            creator_id=current_user.get_id(),
+                            source=form.source.data)
+        db.session.add(question)
+        db.session.commit()
+
+        flash("Question added to database!", "success")
+        return redirect(url_for("user.questions"))
+
+    return render_template("user/questions.html", form=form)

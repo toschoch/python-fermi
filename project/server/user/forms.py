@@ -48,3 +48,6 @@ class QuestionForm(FlaskForm):
     uncertainty = FloatField(
         "Uncertainty"
     )
+    source = StringField(
+        "Source"
+    )
