@@ -3,3 +3,10 @@
 .site-content {
   padding-top: 6rem;
 }
+
+.question {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #d3d3d3;
+  font-style: italic;
+}
