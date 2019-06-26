@@ -13,14 +13,16 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(), nullable=False)
     answer = db.Column(db.Float(), nullable=False)
+    unit = db.Column(db.String(), nullable=False)
     uncertainty = db.Column(db.Float(), nullable=True)
     creation = db.Column(db.DateTime, nullable=False)
     source = db.Column(db.String(), nullable=True)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self, text, answer, creator_id, uncertainty=None, source=None):
+    def __init__(self, text, answer, creator_id, unit="integer", uncertainty=None, source=None):
         self.text = text
         self.answer = answer
+        self.unit = unit
         self.uncertainty = uncertainty
         self.creation = datetime.datetime.now()
         self.source = source
