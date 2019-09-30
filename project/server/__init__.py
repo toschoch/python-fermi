@@ -13,6 +13,8 @@ from flask_migrate import Migrate
 
 
 # instantiate the extensions
+from project.server.jsonencoder import CustomJSONEncoder
+
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 toolbar = DebugToolbarExtension()
@@ -35,6 +37,7 @@ def create_app(script_info=None):
         "APP_SETTINGS", "project.server.config.ProductionConfig"
     )
     app.config.from_object(app_settings)
+    app.json_encoder = CustomJSONEncoder
 
     # set up extensions
     login_manager.init_app(app)
@@ -47,9 +50,12 @@ def create_app(script_info=None):
     # register blueprints
     from project.server.user.views import user_blueprint
     from project.server.main.views import main_blueprint
+    from project.server.api import api_blueprint
 
     app.register_blueprint(user_blueprint)
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(api_blueprint, url_prefix='/api')
+
 
     # flask login
     from project.server.models import User
@@ -81,6 +87,6 @@ def create_app(script_info=None):
     # shell context for flask cli
     @app.shell_context_processor
     def ctx():
-        return {"app": app, "db": db}
+        return {"app": app, "db": db, "api": api}
 
     return app

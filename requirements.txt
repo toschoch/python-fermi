@@ -1,6 +1,7 @@
 coverage
 flake8
 Flask
+Flask-RESTful
 Flask-Bcrypt
 Flask-Bootstrap
 Flask-DebugToolbar
@@ -9,4 +10,5 @@ Flask-Migrate
 Flask-SQLAlchemy
 Flask-Testing
 Flask-WTF
+requests
 psycopg2

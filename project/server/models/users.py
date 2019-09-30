@@ -2,12 +2,13 @@
 
 
 import datetime
+from dataclasses import dataclass
 
 from flask import current_app
 
 from project.server import db, bcrypt
 
-
+@dataclass
 class User(db.Model):
 
     __tablename__ = "users"

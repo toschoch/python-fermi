@@ -2,7 +2,6 @@
 
 
 from flask import render_template, Blueprint
-from project.server import db
 from project.server.models import Question
 
 from sqlalchemy.sql.expression import func
