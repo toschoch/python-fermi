@@ -1,16 +1,17 @@
 # manage.py
 
 
+import subprocess
+import sys
 import unittest
 
+import click
 import coverage
-
 from flask.cli import FlaskGroup
 
 from project.server import create_app, db
-from project.server.models import User
-import subprocess
-import sys
+from project.server.static_questions import questions
+from project.server.models import User, Question
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -27,20 +28,6 @@ COV = coverage.coverage(
 )
 COV.start()
 
-
-@cli.command()
-def create_db():
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-
-
-@cli.command()
-def drop_db():
-    """Drops the db tables."""
-    db.drop_all()
-
-
 @cli.command()
 def create_admin():
     """Creates the admin user."""
@@ -51,7 +38,17 @@ def create_admin():
 @cli.command()
 def create_data():
     """Creates sample data."""
-    pass
+    q = questions[0]
+    query = db.session.query(Question).filter(Question.text == q.text)
+    if not db.session.query(query.exists()).scalar():
+        click.echo("The static questions don't seem to exist... add them")
+        for q in questions:
+            db.session.add(q)
+        db.session.commit()
+        click.echo("done")
+    else:
+        click.echo("questions already in database!")
+
 
 
 @cli.command()
