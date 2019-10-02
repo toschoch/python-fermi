@@ -1,13 +1,15 @@
+import datetime
 import random
 import requests
 
+from project.server.datasources.base import BaseSource
 from project.server.models import Question
 
 
-class Cities:
+class Cities(BaseSource):
 
-    @staticmethod
-    def get_country():
+    @classmethod
+    def get_country(cls):
         url = 'https://query.wikidata.org/sparql'
 
         q = """
@@ -21,8 +23,8 @@ WHERE
         countries = list(map(lambda x: x['item']['value'], r.json()['results']['bindings']))
         return countries[random.randint(0, len(countries) - 1)].split("/")[-1]
 
-    @staticmethod
-    def get_questions():
+    @classmethod
+    def get_question(cls):
         country = Cities.get_country()
         url = 'https://query.wikidata.org/sparql'
         query = """
@@ -55,9 +57,18 @@ WHERE
 
         q = Question(text="What is the {} of {} (in {})?".format(
             statement["propertyLabel"]["value"],
-            statement["itemLabel"]["value"],
-            statement["unitLabel"]["value"]
-        ),
+            statement["itemLabel"]["value"]),
+            source="www.wikidata.org",
+            creation=datetime.now(),
+            unit=statement["unitLabel"]["value"],
             answer=float(statement["value"]["value"]))
 
         return q
+
+    @classmethod
+    def questions_count(cls):
+        return 1000
+
+    @classmethod
+    def questions_weight(cls):
+        return 0.00
