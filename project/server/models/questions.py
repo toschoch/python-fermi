@@ -29,10 +29,13 @@ class Question(ModelBase, db.Model):
     categories = db.relationship(Category, secondary=question_category_assignments_table)
 
     @classmethod
-    def serialize(cls, c):
-        if c in [cls.id, cls.creator_id, cls.creator, cls.source_id, cls.source, cls.unit_id, cls.unit]:
+    def include(cls, c):
+        if c in [cls.id, cls.creator_id, cls.source_id, cls.unit_id]:
             return False
         return True
+
+    def serialize(self):
+        return {"unit": self.unit, "source": self.source, "categories": self.categories}
 
     def get_id(self):
         return self.id

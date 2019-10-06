@@ -5,7 +5,7 @@ from sqlalchemy import func
 from project.server.models import Question
 
 
-class FermiQuestions(Resource):
+class RandomFermiQuestions(Resource):
 
     @staticmethod
     def get():
