@@ -10,7 +10,7 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project.server import create_app, db
-from project.server.static_questions import questions
+from project.dataseed.static_questions import questions
 from project.server.models import User, Question
 
 app = create_app()
@@ -27,6 +27,7 @@ COV = coverage.coverage(
     ],
 )
 COV.start()
+
 
 @cli.command()
 def create_admin():
@@ -48,7 +49,6 @@ def create_data():
         click.echo("done")
     else:
         click.echo("questions already in database!")
-
 
 
 @cli.command()

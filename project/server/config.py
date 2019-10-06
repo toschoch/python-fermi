@@ -21,15 +21,17 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG_TB_ENABLED = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://postgres:postgres@localhost/postgres'
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "DATABASE_URL",
+        "postgresql+psycopg2://postgres:postgres@localhost/postgres",
+    )
 
 
 class TestingConfig(BaseConfig):
     """Testing configuration."""
 
     PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_DATABASE_URI = "sqlite:///"
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL", "sqlite:///")
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + basedir.join("test.sqlite")
     TESTING = True
 
 

@@ -1,9 +1,9 @@
 import random
 import numpy as np
-import click
 
-from project.server.datasources.cities import Cities
-from project.server.datasources.db import SqlDataBaseSource
+from project.dataseed.datasources.cities import Cities
+from project.dataseed.datasources.countries import Countries
+from project.dataseed.datasources.db import SqlDataBaseSource
 
 
 class AllSources:
@@ -12,7 +12,7 @@ class AllSources:
     @staticmethod
     def get_question():
 
-        sources = [Cities, SqlDataBaseSource]
+        sources = [Countries, SqlDataBaseSource, Cities]
         source_counts = np.array([src.questions_count() for src in sources])
         source_weights = np.array([src.questions_weight() for src in sources])
         source_counts = source_counts * source_weights

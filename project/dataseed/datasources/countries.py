@@ -1,15 +1,16 @@
-import datetime
+from datetime import datetime
 import random
+import numpy as np
 import requests
 
-from project.server.datasources.base import BaseSource
+from project.dataseed.datasources.base import BaseSource
 from project.server.models import Question
 
 
-class Cities(BaseSource):
+class Countries(BaseSource):
 
     @classmethod
-    def get_country(cls):
+    def get_countries(cls, n=1):
         url = 'https://query.wikidata.org/sparql'
 
         q = """
@@ -21,11 +22,11 @@ WHERE
 """
         r = requests.get(url, params={'format': 'json', 'query': q})
         countries = list(map(lambda x: x['item']['value'], r.json()['results']['bindings']))
-        return countries[random.randint(0, len(countries) - 1)].split("/")[-1]
+        return [c.split("/")[-1] for c in np.random.choice(np.array(countries), n, replace=True)]
 
     @classmethod
     def get_question(cls):
-        country = Cities.get_country()
+        country = Countries.get_countries()[0]
         url = 'https://query.wikidata.org/sparql'
         query = """
 SELECT ?itemLabel ?item ?propertyLabel  ?lowerBound ?value ?valuePred ?upperBound ?unitLabel ?statement
@@ -55,14 +56,20 @@ WHERE
         statements = data['results']['bindings']
         statement = statements[random.randint(0, len(statements) - 1)]
 
-        q = Question(text="What is the {} of {} (in {})?".format(
+        value = float(statement["value"]["value"])
+        try:
+            uncertainty = float(statement["upperBound"]["value"]) - float(statement["lowerBound"]["value"])
+        except:
+            uncertainty = value * 0.2  # 20% is standard uncertainty
+
+        q = Question(text="What is the {} of {} ({})?".format(
             statement["propertyLabel"]["value"],
-            statement["itemLabel"]["value"]),
+            statement["itemLabel"]["value"], statement["statement"]["value"]),
             source="www.wikidata.org",
             creation=datetime.now(),
             unit=statement["unitLabel"]["value"],
-            answer=float(statement["value"]["value"]))
-
+            uncertainty=uncertainty,
+            answer=value)
         return q
 
     @classmethod
@@ -71,4 +78,4 @@ WHERE
 
     @classmethod
     def questions_weight(cls):
-        return 0.00
+        return 0.05
