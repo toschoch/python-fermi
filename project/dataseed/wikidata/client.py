@@ -17,6 +17,6 @@ class WikiDataClient:
         bindings = data['results']['bindings']
         data = pd.DataFrame.from_dict(map(lambda row: {k: row[k]["value"] for k in row.keys()}, bindings))
         io = StringIO()
-        data.to_csv(io,index=False)
+        data[r.json()['head']['vars']].to_csv(io,index=False)
         io.seek(0)
         return pd.read_csv(io)
