@@ -34,8 +34,8 @@ class Question(ModelBase, db.Model):
             return False
         return True
 
-    #def serialize(self):
-     #   return {"unit": self.unit, "source": self.source, "categories": self.categories}
+    def serialize(self):
+        return {"unit": self.unit} #, "source": self.source, "categories": self.categories}
 
     def get_id(self):
         return self.id

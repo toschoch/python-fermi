@@ -11,7 +11,7 @@ class AllSources:
     @staticmethod
     def get_question():
 
-        sources = [Countries, SqlDataBaseSource, Cities]
+        sources = [Countries, SqlDataBaseSource]
         source_counts = np.array([src.questions_count() for src in sources])
         source_weights = np.array([src.questions_weight() for src in sources])
         source_counts = source_counts * source_weights

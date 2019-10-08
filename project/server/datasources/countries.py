@@ -4,7 +4,7 @@ import numpy as np
 import requests
 
 from .base import BaseSource
-from project.server.models import Question
+from project.server.models import Question, Unit
 
 
 class Countries(BaseSource):
@@ -62,12 +62,12 @@ WHERE
         except:
             uncertainty = value * 0.2  # 20% is standard uncertainty
 
-        q = Question(text="What is the {} of {} ({})?".format(
+        q = Question(text="What is the {} of {}?".format(
             statement["propertyLabel"]["value"],
-            statement["itemLabel"]["value"], statement["statement"]["value"]),
+            statement["itemLabel"]["value"]),
             #source="www.wikidata.org",
             creation=datetime.now(),
-            #unit=statement["unitLabel"]["value"],
+            unit=Unit(description=statement["unitLabel"]["value"]),
             uncertainty=uncertainty,
             answer=value)
         return q
@@ -78,4 +78,4 @@ WHERE
 
     @classmethod
     def questions_weight(cls):
-        return 0.5
+        return 0.05

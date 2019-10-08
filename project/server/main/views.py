@@ -2,19 +2,17 @@
 
 
 from flask import render_template, Blueprint
-from project.server.models import Question
 
-from sqlalchemy.sql.expression import func
-
+from project.server.datasources import AllSources
 
 main_blueprint = Blueprint("main", __name__)
 
 
 @main_blueprint.route("/")
 def home():
-    question = Question.query.order_by(func.random()).limit(1).first().text
+    q = AllSources.get_question()
     #question = "test?" # "How many ants live on this planet earth?"
-    return render_template("main/home.html", question=question)
+    return render_template("main/home.html", question=q.text, units=q.unit.description)
 
 
 @main_blueprint.route("/about/")
