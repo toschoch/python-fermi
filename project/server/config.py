@@ -21,10 +21,7 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG_TB_ENABLED = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        "postgresql+psycopg2://postgres:postgres@localhost/postgres",
-    )
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:fermipw@192.168.209.135:1234/postgres"
 
 
 class TestingConfig(BaseConfig):
