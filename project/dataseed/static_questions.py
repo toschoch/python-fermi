@@ -2,10 +2,10 @@ from datetime import datetime
 
 from project.server.models import Question, Unit, DataSource
 
-number_unit = Unit(name="number")
-density_per_squarecentimeter_unit = Unit(name="1/(centimeter)^2")
-liter_unit = Unit(name="liter")
-hour_unit = Unit(name="hour")
+number_unit = Unit(description="number")
+density_per_squarecentimeter_unit = Unit(description="per square centimeter", formula="1/(centimeter)^2")
+liter_unit = Unit(description="liters")
+hour_unit = Unit(description="hours")
 
 user_created = DataSource(name="UserCreated")
 

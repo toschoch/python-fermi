@@ -3,7 +3,7 @@ import random
 import numpy as np
 import requests
 
-from project.dataseed.datasources.base import BaseSource
+from .base import BaseSource
 from project.server.models import Question
 
 
@@ -65,9 +65,9 @@ WHERE
         q = Question(text="What is the {} of {} ({})?".format(
             statement["propertyLabel"]["value"],
             statement["itemLabel"]["value"], statement["statement"]["value"]),
-            source="www.wikidata.org",
+            #source="www.wikidata.org",
             creation=datetime.now(),
-            unit=statement["unitLabel"]["value"],
+            #unit=statement["unitLabel"]["value"],
             uncertainty=uncertainty,
             answer=value)
         return q
@@ -78,4 +78,4 @@ WHERE
 
     @classmethod
     def questions_weight(cls):
-        return 0.05
+        return 0.5

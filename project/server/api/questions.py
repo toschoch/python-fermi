@@ -2,7 +2,7 @@ from flask import jsonify
 from flask_restful import Resource
 from sqlalchemy import func
 
-from project.server.models import Question
+from project.server.datasources import AllSources
 
 
 class RandomFermiQuestions(Resource):
@@ -10,6 +10,6 @@ class RandomFermiQuestions(Resource):
     @staticmethod
     def get():
 
-        question = Question.query.order_by(func.random()).limit(1).first()
+        q = AllSources.get_question()
 
-        return jsonify(question.as_dict())
+        return jsonify(q.as_dict())

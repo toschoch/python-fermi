@@ -1,13 +1,12 @@
 import random
 import numpy as np
 
-from project.dataseed.datasources.cities import Cities
-from project.dataseed.datasources.countries import Countries
-from project.dataseed.datasources.db import SqlDataBaseSource
+from .cities import Cities
+from .countries import Countries
+from .db import SqlDataBaseSource
 
 
 class AllSources:
-
 
     @staticmethod
     def get_question():

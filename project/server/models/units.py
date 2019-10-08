@@ -11,6 +11,7 @@ class Unit(db.Model, ModelBase):
     formula = db.Column(db.String(), nullable=True)
     shortFormula = db.Column(db.String(), nullable=True)
     latex = db.Column(db.String(), nullable=True)
+    wikidata = db.Column(db.String(), nullable=True)
 
 
     @classmethod

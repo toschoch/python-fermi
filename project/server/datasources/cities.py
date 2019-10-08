@@ -2,7 +2,7 @@ import datetime
 import random
 import requests
 
-from project.dataseed.datasources.base import BaseSource
+from .base import BaseSource
 from project.server.models import Question
 from .countries import Countries
 
@@ -52,3 +52,7 @@ WHERE
     @classmethod
     def questions_count(cls):
         return 1000
+
+    @classmethod
+    def questions_weight(cls):
+        return 0

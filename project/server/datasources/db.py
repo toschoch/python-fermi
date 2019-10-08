@@ -1,6 +1,6 @@
 from sqlalchemy import func
 
-from project.dataseed.datasources.base import BaseSource
+from .base import BaseSource
 from project.server.models import Question
 
 
